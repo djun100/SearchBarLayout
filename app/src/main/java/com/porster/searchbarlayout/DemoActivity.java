@@ -60,7 +60,7 @@ public class DemoActivity extends Activity{
 
         //Real Time Search
 
-        mSearchBar.getEditor().addTextChangedListener(new TextWatcher() {
+        /*mSearchBar.getEditor().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -75,7 +75,7 @@ public class DemoActivity extends Activity{
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        });*/
 /*        mSearchBar.getEditor().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
