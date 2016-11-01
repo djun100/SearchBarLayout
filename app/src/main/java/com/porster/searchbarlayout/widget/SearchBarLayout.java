@@ -8,8 +8,10 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -158,6 +160,8 @@ public class SearchBarLayout extends RelativeLayout{
 			addClickEffect(cancelTextView).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				Log.w("tag","点击取消按钮");
+				clickClean();
 				cancelFocus();
 			}
 			});
@@ -179,23 +183,9 @@ public class SearchBarLayout extends RelativeLayout{
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 					if (event.getX() > mEditText.getWidth() - mEditText.getPaddingRight() - imgX.getIntrinsicWidth()) {
-						mEditText.setText("");
-                        removeClearButton();
-						
-						//还原
-						if(ViewHelper.getTranslationX(cancelTextView)!=0){
-							setFocusable(true);
-							setFocusableInTouchMode(true);
-							requestFocusFromTouch();
-							if(hasAnimtion){
-								ObjectAnimator.ofFloat(mTextView,"translationX",ViewHelper.getTranslationX(mTextView),0).start();
-							}else{
-								ViewHelper.setTranslationX(mTextView,0);
-							}
-							if(cancelSearchLayout!=null)
-								cancelSearchLayout.OnCancel();
-							return true;
-						}
+						Log.w("tag","点击了x");
+
+						clickClean();
 						result=true;
 					 }else{
 						 result=false;
@@ -206,6 +196,30 @@ public class SearchBarLayout extends RelativeLayout{
 			}
 		});
 	}
+
+	/**
+	 * 点击x图标执行的动作
+	 */
+	private void clickClean() {
+		mEditText.setText("");
+		removeClearButton();
+		//还原
+		if(ViewHelper.getTranslationX(cancelTextView)!=0){
+            setFocusable(true);
+            setFocusableInTouchMode(true);
+            requestFocusFromTouch();
+            if(hasAnimtion){
+                ObjectAnimator.ofFloat(mTextView,"translationX",ViewHelper.getTranslationX(mTextView),0).start();
+            }else{
+                ViewHelper.setTranslationX(mTextView,0);
+            }
+            if(mListener!=null){
+                Log.w("tag","onCancel 1");
+                mListener.onCancel();
+            }
+        }
+	}
+
 	private boolean translationAnimator;
 	
 	private void focused() {
@@ -274,8 +288,10 @@ public class SearchBarLayout extends RelativeLayout{
 				}else{
 					ViewHelper.setTranslationX(mTextView, 0);
 				}
-				if(cancelSearchLayout!=null)
-					cancelSearchLayout.OnCancel();
+				if(mListener!=null){
+					Log.w("tag","onCancel 2");
+					mListener.onCancel();
+				}
 			}
 		}
 		if(ViewHelper.getTranslationX(cancelTextView)==0){//说明已经出屏幕
@@ -378,13 +394,13 @@ public class SearchBarLayout extends RelativeLayout{
 		}
 		
 	}
-	private OnCancelSearchLayout cancelSearchLayout;
+/*	private OnCancelSearchLayout cancelSearchLayout;
 	public interface OnCancelSearchLayout{
 		public void OnCancel();
 	}
 	public void setCancelSearchLayout(OnCancelSearchLayout cancelSearchLayout) {
 		this.cancelSearchLayout = cancelSearchLayout;
-	}
+	}*/
 
 	/**
 	 * 添加点击效果
@@ -409,5 +425,31 @@ public class SearchBarLayout extends RelativeLayout{
 		});
 		return v;
 	}
-	
+	public void setHint(String hint){
+		mTextView.setHint(hint);
+	}
+
+	/**
+	 * 开启搜索功能
+	 * @param listener
+	 */
+	public void setOnSearch(OnSearchListener listener) {
+		mListener=listener;
+		getEditor().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				String key=v.getText().toString();
+				if(TextUtils.isEmpty(key)){
+					return true;
+				}
+				mListener.onSearch(key);
+				return true;
+			}
+		});
+	}
+	private OnSearchListener mListener;
+	public interface OnSearchListener {
+		void onSearch(String searchText);
+		void onCancel();
+	}
 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -75,7 +76,7 @@ public class DemoActivity extends Activity{
 
             }
         });
-        mSearchBar.getEditor().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+/*        mSearchBar.getEditor().setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 String key=v.getText().toString();
@@ -95,15 +96,39 @@ public class DemoActivity extends Activity{
                 Toast.makeText(DemoActivity.this,"Query Done",Toast.LENGTH_SHORT).show();
                 return true;
             }
-        });
+        });*/
         //Cancel Search
-        mSearchBar.setCancelSearchLayout(new SearchBarLayout.OnCancelSearchLayout() {
+/*        mSearchBar.setCancelSearchLayout(new SearchBarLayout.OnCancelSearchLayout() {
             @Override
             public void OnCancel() {
                 filter("");
             }
-        });
+        });*/
+        mSearchBar.setOnSearch(new SearchBarLayout.OnSearchListener() {
+            @Override
+            public void onSearch(String searchText) {
+                if(TextUtils.isEmpty(searchText)){
+                    Toast.makeText(DemoActivity.this,"Key is Null",Toast.LENGTH_SHORT).show();
+                }
+                String[] mResult={"Query Result1","Query Result2"};
 
+                List<String> mResultList=new ArrayList<String>();
+                for (String result :mResult) {
+                    mResultList.add(result);
+                }
+                mAdapter.clear();
+                mAdapter.addAll(mResultList);
+
+                Toast.makeText(DemoActivity.this,"Query Done",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancel() {
+                filter("");
+                Log.w("tag","filter null");
+            }
+        });
+        mSearchBar.setHint("搜索：哒哒哒");
     }
     private void filter(String key){
         mListData.clear();
