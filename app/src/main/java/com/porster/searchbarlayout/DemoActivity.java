@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static android.R.attr.filter;
+
 /**
  * Created by Porster on 16/6/8.
  */
@@ -104,6 +106,7 @@ public class DemoActivity extends Activity{
                 filter("");
             }
         });*/
+
         mSearchBar.setOnSearch(new SearchBarLayout.OnSearchListener() {
             @Override
             public void onSearch(String searchText) {
@@ -124,13 +127,19 @@ public class DemoActivity extends Activity{
 
             @Override
             public void onCancel() {
-                filter("");
+                doFilter("");
                 Log.w("tag","filter null");
+            }
+
+            @Override
+            public void filter(String key) {
+                super.filter(key);
+                doFilter(key);
             }
         });
         mSearchBar.setHint("搜索：哒哒哒");
     }
-    private void filter(String key){
+    private void doFilter(String key){
         mListData.clear();
         mListData.addAll(mOriginData);
         if(!TextUtils.isEmpty(key)){
@@ -142,4 +151,5 @@ public class DemoActivity extends Activity{
         }
         mAdapter.notifyDataSetChanged();
     }
+
 }

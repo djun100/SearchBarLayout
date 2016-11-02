@@ -449,9 +449,11 @@ public class SearchBarLayout extends RelativeLayout{
 		});
 	}
 	private OnSearchListener mListener;
-	public interface OnSearchListener {
-		void onSearch(String searchText);
-		void onCancel();
-		void filter(String key);
+	public static abstract class OnSearchListener {
+		public abstract void  onSearch(String searchText);
+		public abstract void onCancel();
+		public void filter(String key){
+
+		}
 	}
 }
