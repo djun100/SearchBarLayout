@@ -137,7 +137,7 @@ public class DemoActivity extends Activity{
                 doFilter(key);
             }
         });
-        mSearchBar.setHint("搜索：哒哒哒");
+        mSearchBar.init("搜索：哒哒哒",R.color.colorAccent);
     }
     private void doFilter(String key){
         mListData.clear();

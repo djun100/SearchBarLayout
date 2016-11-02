@@ -59,20 +59,20 @@ public class SearchBarLayout extends RelativeLayout{
 	
 	public SearchBarLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
-		init(attrs,defStyleAttr);
+		inner_init(attrs,defStyleAttr);
 	}
 
 	public SearchBarLayout(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(attrs,0);
+		inner_init(attrs,0);
 	}
 
 	public SearchBarLayout(Context context) {
 		super(context);
-		init(null,0);
+		inner_init(null,0);
 	}
 
-	private void init(AttributeSet attrs, int defStyleAttr) {
+	private void inner_init(AttributeSet attrs, int defStyleAttr) {
 		setHasAnimtion(true);
 		if(attrs!=null&&defStyleAttr>0){
 			mEditText=new EditText(getContext(), attrs, defStyleAttr);
@@ -196,6 +196,7 @@ public class SearchBarLayout extends RelativeLayout{
 				return result;
 			}
 		});
+		init();
 	}
 
 	/**
@@ -426,10 +427,42 @@ public class SearchBarLayout extends RelativeLayout{
 		});
 		return v;
 	}
-	public void setHint(String hint){
-		mTextView.setHint(hint);
+
+	public void init(){
+		init("搜索");
 	}
 
+	public void init(String hint){
+		init( hint, android.R.color.black);
+	}
+
+	/**
+	 * @param hint
+	 * @param cancelTextColor	R.color.xxx
+	 */
+	public void init(String hint,int cancelTextColor){
+		init( hint, cancelTextColor,-1);
+	}
+
+	/**
+	 * @param hint
+	 * @param cancelTextColor	R.color.xxx
+	 * @param hintTextColor		R.color.xxx  "搜索"文字的颜色
+	 */
+	public void init(String hint,int cancelTextColor,int hintTextColor){
+		setHint(hint);
+
+		if (hintTextColor>0) {
+			mTextView.setHintTextColor(getContext().getResources().getColor(hintTextColor));
+		}
+
+		cancelTextView.setTextColor(getContext().getResources().getColor(cancelTextColor));
+	}
+
+	private void setHint(String hint){
+		mHint=hint;
+		mTextView.setHint(hint);
+	}
 	/**
 	 * 开启搜索功能
 	 * @param listener
