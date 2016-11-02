@@ -96,8 +96,8 @@ public class SearchBarLayout extends RelativeLayout{
 		mEditText.setHint("");
 		mEditText.setSingleLine(true);
 		mEditText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-		mEditText.setBackgroundResource(R.drawable.common_search_bg);
-		imgX=getResources().getDrawable(R.mipmap.common_icon_close);
+		mEditText.setBackgroundResource(R.drawable.searchbarlayout_search_bg);
+		imgX=getResources().getDrawable(R.mipmap.searchbarlayout_icon_close);
 		imgX.setBounds(0, 0, imgX.getIntrinsicWidth(),imgX.getIntrinsicHeight());
 		
         manageClearButton();
@@ -136,7 +136,7 @@ public class SearchBarLayout extends RelativeLayout{
 		mTextView.setText("");
 		mTextView.setGravity(Gravity.CENTER);
 		mTextView.setBackgroundColor(Color.TRANSPARENT);
-		final Drawable search=getContext().getResources().getDrawable(R.mipmap.search);
+		final Drawable search=getContext().getResources().getDrawable(R.mipmap.searchbarlayout_search);
 		search.setBounds(0, 0, search.getIntrinsicWidth(),search.getIntrinsicHeight());
 		mTextView.setCompoundDrawables(search, null, null, null);
 		mTextView.setCompoundDrawablePadding(mPadding10/2);
