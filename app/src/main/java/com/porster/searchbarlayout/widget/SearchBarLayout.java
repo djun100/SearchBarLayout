@@ -39,6 +39,7 @@ public class SearchBarLayout extends RelativeLayout{
 	private String mHint;
 
 	private int mPadding10;
+	private int mPadding5;
 
 	private  Drawable imgX;
 	
@@ -87,6 +88,7 @@ public class SearchBarLayout extends RelativeLayout{
 		cancelTextView=new CancelTextView(getContext());
 		this.setBackgroundColor(Color.parseColor("#EFEFEF"));
 		mPadding10 = dip2px(10);
+		mPadding5 = dip2px(8);
 		//EditText
 		if(!isInEditMode()){
 			if(!TextUtils.isEmpty(mTextView.getHint())){
@@ -142,11 +144,17 @@ public class SearchBarLayout extends RelativeLayout{
 		mTextView.setCompoundDrawablePadding(mPadding10/2);
 		mTextView.setEnabled(false);
 
-		mEditText.setPadding(search.getIntrinsicWidth()+(int)(mPadding10*1.75f),mPadding10 ,(int)(mPadding10*1.5f),mPadding10);
-		
+		mEditText.setPadding(
+				search.getIntrinsicWidth()+(int)(mPadding10*1.75f),
+				mPadding5 ,
+				(int)(mPadding10*1.5f),
+				mPadding5);
+		LayoutParams paramsEt=new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);
+//		paramsEt.addRule(RelativeLayout.CENTER_IN_PARENT);
 
-		addView(mEditText, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		
+//		addView(mEditText, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+		addView(mEditText, paramsEt);
+
 		LayoutParams params=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.CENTER_IN_PARENT);
 		addView(mTextView, params);
@@ -462,6 +470,7 @@ public class SearchBarLayout extends RelativeLayout{
 	private void setHint(String hint){
 		mHint=hint;
 		mTextView.setHint(hint);
+		mTextView.setTextSize(14);
 	}
 	/**
 	 * 开启搜索功能
