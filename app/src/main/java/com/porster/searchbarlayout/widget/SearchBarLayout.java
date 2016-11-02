@@ -1,6 +1,7 @@
 package com.porster.searchbarlayout.widget;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -26,6 +28,8 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
 import com.nineoldandroids.view.ViewHelper;
 import com.porster.searchbarlayout.R;
+
+import static com.cy.view.UtilScreen.showKeyboard;
 
 public class SearchBarLayout extends RelativeLayout{
 	
@@ -497,5 +501,23 @@ public class SearchBarLayout extends RelativeLayout{
 		public void filter(String key){
 
 		}
+	}
+
+	/**打开页面自动进入搜索状态，无需点击
+	 * @param activity
+	 */
+	public void enterSearchState(Activity activity){
+		final View v = activity.getWindow().getDecorView();
+		ViewTreeObserver vto = v.getViewTreeObserver();
+		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+			@Override
+			public void onGlobalLayout() {
+				v.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+				//do enter auto search
+				focused();
+				showKeyboard(mEditText);
+			}
+		});
 	}
 }
