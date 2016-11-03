@@ -127,7 +127,7 @@ public class SearchBarLayout extends RelativeLayout{
 					mTextView.setHint("");
 				}
 				manageClearButton();
-				mListener.filter(mEditText.getText().toString());
+				mListener.onFilter(mEditText.getText().toString());
 			}
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,int after) {
@@ -498,7 +498,7 @@ public class SearchBarLayout extends RelativeLayout{
 	public static abstract class OnSearchListener {
 		public abstract void  onSearch(String searchText);
 		public abstract void onCancel();
-		public void filter(String key){
+		public void onFilter(String key){
 
 		}
 	}

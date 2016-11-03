@@ -132,8 +132,8 @@ public class DemoActivity extends Activity{
             }
 
             @Override
-            public void filter(String key) {
-                super.filter(key);
+            public void onFilter(String key) {
+                super.onFilter(key);
                 doFilter(key);
             }
         });
