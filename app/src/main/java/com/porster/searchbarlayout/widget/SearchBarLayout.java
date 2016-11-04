@@ -506,7 +506,7 @@ public class SearchBarLayout extends RelativeLayout{
 	/**打开页面自动进入搜索状态，无需点击
 	 * @param activity
 	 */
-	public void enterSearchState(Activity activity){
+	public void autoEnterSearchState(Activity activity) {
 		final View v = activity.getWindow().getDecorView();
 		ViewTreeObserver vto = v.getViewTreeObserver();
 		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -519,5 +519,9 @@ public class SearchBarLayout extends RelativeLayout{
 				showKeyboard(mEditText);
 			}
 		});
+	}
+
+	public void exitSearchState(){
+		cancelTextView.performClick();
 	}
 }
