@@ -472,6 +472,21 @@ public class SearchBarLayout extends RelativeLayout{
 	}
 
 	private void setHint(String hint){
+		removeView(mTextView);
+
+		mTextView=new MyTextView(getContext());
+		mTextView.setGravity(Gravity.CENTER);
+		mTextView.setBackgroundColor(Color.TRANSPARENT);
+		final Drawable search=getContext().getResources().getDrawable(R.mipmap.searchbarlayout_search);
+		search.setBounds(0, 0, search.getIntrinsicWidth(),search.getIntrinsicHeight());
+		mTextView.setCompoundDrawables(search, null, null, null);
+		mTextView.setCompoundDrawablePadding(mPadding10/2);
+		mTextView.setEnabled(false);
+
+		LayoutParams params=new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+		params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		addView(mTextView, params);
+
 		mHint=hint;
 		mTextView.setHint(hint);
 		mTextView.setTextSize(14);

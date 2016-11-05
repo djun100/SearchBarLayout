@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ public class DemoActivity extends Activity{
     }
 
     private void initUI() {
-        SearchBarLayout mSearchBar= (SearchBarLayout) findViewById(R.id.searchBarlayout);
+        final SearchBarLayout mSearchBar= (SearchBarLayout) findViewById(R.id.searchBarlayout);
 
         ListView mListView= (ListView) findViewById(R.id.listview);
 
@@ -59,7 +61,12 @@ public class DemoActivity extends Activity{
         mAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,mListData);
 
         mListView.setAdapter(mAdapter);
-
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mSearchBar.init((String) parent.getAdapter().getItem(position));
+            }
+        });
         //Real Time Search
 
         /*mSearchBar.getEditor().addTextChangedListener(new TextWatcher() {
