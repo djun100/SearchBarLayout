@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cy.view.UtilScreen;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.animation.ObjectAnimator;
@@ -143,13 +144,15 @@ public class SearchBarLayout extends RelativeLayout{
 		mTextView.setGravity(Gravity.CENTER);
 		mTextView.setBackgroundColor(Color.TRANSPARENT);
 		final Drawable search=getContext().getResources().getDrawable(R.mipmap.searchbarlayout_search);
-		search.setBounds(0, 0, search.getIntrinsicWidth(),search.getIntrinsicHeight());
+//		search.setBounds(0, 0, search.getIntrinsicWidth(),search.getIntrinsicHeight());
+		search.setBounds(0, 0, (int) UtilScreen.dpToPx(14),(int) UtilScreen.dpToPx(14));
 		mTextView.setCompoundDrawables(search, null, null, null);
 		mTextView.setCompoundDrawablePadding(mPadding10/2);
 		mTextView.setEnabled(false);
 
 		mEditText.setPadding(
-				search.getIntrinsicWidth()+(int)(mPadding10*1.75f),
+				(int) UtilScreen.dpToPx(14)+(int)(mPadding10*1.75f),
+//				search.getIntrinsicWidth()+(int)(mPadding10*1.75f),
 				mPadding5 ,
 				(int)(mPadding10*1.5f),
 				mPadding5);
