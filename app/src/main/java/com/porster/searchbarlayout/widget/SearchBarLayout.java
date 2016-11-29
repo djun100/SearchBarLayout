@@ -508,6 +508,7 @@ public class SearchBarLayout extends RelativeLayout{
 					return true;
 				}
 				mListener.onSearch(key);
+                hiddenKeybord();
 				return true;
 			}
 		});
